@@ -1,10 +1,10 @@
 package no.njm.example;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Maps don't support streams, but various new and useful methods for doing common tasks are implemented.
@@ -18,7 +18,7 @@ public class Maps {
         for (int i = 0; i < 10; i++) {
             map.putIfAbsent(i, "val" + i); // Default Method added to Map
         }
-        map.forEach((id, val) -> System.out.println(val)); // BiConsumer functional interface
+        map.forEach((id, val) -> log.info(val)); // BiConsumer functional interface
 
         // BiConsumer is expected  to operate via side-effects
         map.computeIfPresent(3, (num, val) -> val + num);
@@ -28,7 +28,6 @@ public class Maps {
         log.debug("map.get(9) is {} ", map.get(9));
 
         map.computeIfAbsent(23, num -> "val" + num);
-        map.containsKey(23);
         log.debug("map.containsKey(23) is {} ", map.containsKey(23));
 
         map.computeIfAbsent(3, num -> "bam");
@@ -46,10 +45,10 @@ public class Maps {
         log.debug("defaultValue is {} ", defaultValue);
 
         // Merging Map entries
-        map.merge(9, "val9", (a, b) -> a.concat(b)); // Initially null
+        map.merge(9, "val9", String::concat); // Initially null
         log.debug("map.get(9) is {} ", map.get(9));
 
-        map.merge(9, "concat", (a, b) -> a.concat(b));
+        map.merge(9, "concat", String::concat);
         log.debug("map.get(9) is {} ", map.get(9));
     }
 }

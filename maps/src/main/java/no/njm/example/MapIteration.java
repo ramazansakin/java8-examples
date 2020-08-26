@@ -1,17 +1,12 @@
 package no.njm.example;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+@Slf4j
 public class MapIteration {
 
-    private static final Logger log = LoggerFactory.getLogger(Maps.class);
     private static final String DELIMITER = ": ";
 
     public static void main(String[] args) {
@@ -46,9 +41,7 @@ public class MapIteration {
         map.put("key_4", Arrays.asList("value_4_1", "value_4_1"));
 
         // Java 8 forEach
-        map.forEach((key, list) -> {
-            list.forEach(value -> log.debug(key + DELIMITER + value));
-        });
+        map.forEach((key, list) -> list.forEach(value -> log.debug(key + DELIMITER + value)));
 
         // Iterators
         Iterator<Map.Entry<String, List<String>>> iterator = map.entrySet().iterator();
