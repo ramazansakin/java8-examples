@@ -1,12 +1,11 @@
 package no.njm.example;
 
-final class Person {
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
+@Data
+@RequiredArgsConstructor
+final class Person {
     final String firstName;
     final String lastName;
-
-    Person(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
 }

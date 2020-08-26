@@ -1,7 +1,6 @@
 package no.njm.example;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +12,11 @@ import java.util.function.Predicate;
  * This built-in functional interface contains various default methods for composing
  * predicates to complex logical terms (and, or, negate).
  */
+@Slf4j
 public class Predicates {
 
-    private static final Logger log = LoggerFactory.getLogger(Predicates.class);
-
     public static void main(String[] args) {
-        Predicate<String> emptyString = (string) -> string.length() > 0;
+        Predicate<String> emptyString = string -> string.length() > 0;
         log.debug("Testing a String yields {}", emptyString.test("value"));
         log.debug("Testing an empty String yields {}", emptyString.test(""));
 
@@ -28,8 +26,8 @@ public class Predicates {
 
         // Combining predicates
         Predicate<Integer> above = value -> value >= 2;
-        Predicate<Integer> belov = value -> value <= 4;
-        Predicate<Integer> between2and4 = above.and(belov);
+        Predicate<Integer> below = value -> value <= 4;
+        Predicate<Integer> between2and4 = above.and(below);
 
         log.debug("Testing between2and4 using 1 yields {}", between2and4.test(1));
         log.debug("Testing between2and4 using 2 yields {}", between2and4.test(2));
