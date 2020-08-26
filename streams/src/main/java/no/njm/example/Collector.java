@@ -46,7 +46,9 @@ public class Collector {
      * Counting Stream elements;
      */
     private static void count() {
-        long count = persons.size();
+        // equals persons.size()
+        long count = persons.stream()
+                .collect(Collectors.counting());
         log.debug("Count is {}", count);
     }
 
@@ -68,7 +70,7 @@ public class Collector {
                 .stream()
                 .filter(p -> p.age >= 30)
                 .map(p -> p.name)
-                .collect(Collectors.joining(", ")); // (String delimiter, String prefix, String postfix)
+                .collect(Collectors.joining(", "));
 
         log.debug("Joined person string is \"{}\"", phrase);
     }
