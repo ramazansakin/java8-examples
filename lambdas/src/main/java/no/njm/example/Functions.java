@@ -1,7 +1,6 @@
 package no.njm.example;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.function.Function;
 
@@ -9,18 +8,17 @@ import java.util.function.Function;
  * Functions accept one argument and produce a result.
  * Default methods can be used to chain multiple functions together (compose, andThen).
  */
+@Slf4j
 public class Functions {
 
-    private static final Logger log = LoggerFactory.getLogger(Functions.class);
-
     public static void main(String[] args) {
-        Function<String, Integer> toInt = Integer::valueOf;
-        Function<String, String> backToString1 = toInt.andThen(String::valueOf);
-        log.debug("Integer converted back to string is {}", backToString1.apply("123"));
+        Function<String, Integer> func = x -> x.length();
+        Integer apply = func.apply("rsakin");   // 6
+        log.info("Size : " + apply);
 
-        // Compose executes passed-in function first
-        Function<Integer, String> toString = String::valueOf;
-        Function<String, String> backToString2 = toString.compose(Integer::valueOf);
-        log.debug("Integer converted back to string is {}", backToString2.apply("123"));
+        Function<String, Integer> func1 = x -> x.length();
+        Function<Integer, Integer> func2 = x -> x * 2;
+        Integer result = func1.andThen(func2).apply("rsakin");   // 12
+        log.info("New size : " + result);
     }
 }
