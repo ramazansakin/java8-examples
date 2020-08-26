@@ -63,17 +63,14 @@ public class FlatMapped {
     }
 
     private static class Outer {
-
         Nested nested;
     }
 
     private static class Nested {
-
         Inner inner;
     }
 
     private static class Inner {
-
         String foo;
     }
 

@@ -1,12 +1,15 @@
 package no.njm.example;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 class Person {
 
     String name;
     int age;
 
-    public Person(String name, int age) {
-        this.name = name;
-        this.age = age;
-    }
 }
