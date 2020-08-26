@@ -1,22 +1,17 @@
 package no.njm.example;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.function.Supplier;
 
 /**
  * Each lambda corresponds to a given type, specified by an interface.
  * A functional interface must contain exactly one abstract method declaration.
  */
+@Slf4j
 public class Lambdas {
 
-    private static final Logger log = LoggerFactory.getLogger(Lambdas.class);
     private static int staticNum = 0;
     private int instanceNum = 0;
 
@@ -32,6 +27,8 @@ public class Lambdas {
 
     private static void basicLambda() {
         List<String> list = new ArrayList<>();
+        list.add("Sample");
+        list.add("Test");
 
         // Implementing interface Comparator
         list.sort((String a, String b) -> {
@@ -43,11 +40,14 @@ public class Lambdas {
 
         // Skipping parameter types
         list.sort((a, b) -> a.compareTo(b));
+
+        // enhanced type
+        list.sort(String::compareTo);
     }
 
     private static void functionalInterface() {
         // Omitting () around single input parameter
-        Converter<String, Integer> stringConverter = from -> Integer.valueOf(from);
+        Converter<String, Integer> stringConverter = Integer::valueOf;
         log.debug("Converted to {}", stringConverter.convert("100"));
     }
 
@@ -80,7 +80,7 @@ public class Lambdas {
         log.debug("Person has name {} {}", person.firstName, person.lastName);
 
         // The functional interface Supplier the method get() that returns an object
-        HashSet<String> collection = initCollection(HashSet::new, new String[] {"First", "Second"});
+        HashSet<String> collection = initCollection(HashSet::new, new String[]{"First", "Second"});
         for (String element : collection) {
             log.debug("Collection element is {}", element);
         }
@@ -107,7 +107,7 @@ public class Lambdas {
         log.debug("Converted to {}", implicitConverter.convert(3));
 
         // As in anonymous objects, lambdas can write instance fields and static variables.
-        Converter<Integer, String> instanceConverter = (from) -> {
+        Converter<Integer, String> instanceConverter = from -> {
             instanceNum = 2;
             staticNum = 3;
             return String.valueOf(instanceNum + staticNum + from);
