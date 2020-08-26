@@ -40,11 +40,11 @@ public class Streams {
     private static void filter() {
         List<String> list = Arrays.asList("alfa", "bravo", "charlie");
         list.stream()
-                .filter((s) -> s.startsWith("a"))
+                .filter(s -> s.startsWith("a"))
                 .forEach(log::debug); // Consumer
 
         list.stream()
-                .filter((s) -> s.contains("a"))
+                .filter(s -> s.contains("a"))
                 .map(String::toUpperCase)
                 .sorted()
                 .forEach(log::debug);
@@ -59,7 +59,7 @@ public class Streams {
         List<String> list = Arrays.asList("alfa", "bravo", "charlie");
         list.stream()
                 .sorted()
-                .filter((s) -> s.startsWith("a"))
+                .filter(s -> s.startsWith("a"))
                 .forEach(log::debug);
     }
 
@@ -69,17 +69,17 @@ public class Streams {
     private static void match() {
         // True if one element matches the Predicate
         boolean oneMatches = persons.stream()
-                .anyMatch((p) -> p.name.startsWith("A"));
+                .anyMatch(p -> p.name.startsWith("A"));
         log.debug("anyMatch is {}", oneMatches);
 
         // True if all elements matches the Predicate
         boolean allMatches = persons.stream()
-                .allMatch((p) -> p.name.startsWith("A"));
+                .allMatch(p -> p.name.startsWith("A"));
         log.debug("allMatch is {}", allMatches);
 
         // True if no element matches the Predicate
         boolean noneMatches = persons.stream()
-                .noneMatch((p) -> p.name.startsWith("A"));
+                .noneMatch(p -> p.name.startsWith("A"));
         log.debug("noneMatches is {}", noneMatches);
     }
 
@@ -87,7 +87,7 @@ public class Streams {
      * Count is a terminal operation returning the number of elements in the stream as a long.
      */
     private static void count() {
-        long count = persons.stream().count();
+        long count = persons.size();
         log.debug("Count is {}", count);
     }
 
@@ -111,7 +111,7 @@ public class Streams {
 
         Optional<Integer> reduced = numbers.stream()
                 .sorted()
-                .reduce((n1, n2) -> n1 + n2); // Accumulator
+                .reduce(Integer::sum); // Accumulator
         log.debug("Reduced numbers is {}", reduced.orElse(0));
     }
 
@@ -126,9 +126,7 @@ public class Streams {
 
         // Manual
         List<Person> list = new ArrayList<>(map.size());
-        map.entrySet()
-                .stream()
-                .forEach(entry -> list.add(entry.getValue()));
+        map.forEach((key, value) -> list.add(value));
         log.debug("List has {} elements", list.size());
     }
 
@@ -138,8 +136,7 @@ public class Streams {
     private static void kindOfStreams() {
 
         // From List
-        Arrays.asList("alfa", "bravo", "charlie")
-                .stream()
+        Stream.of("alfa", "bravo", "charlie")
                 .findFirst()
                 .ifPresent(log::debug);
 
