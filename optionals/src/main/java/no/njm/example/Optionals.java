@@ -32,34 +32,36 @@ public class Optionals {
 
     private static void plainOptional(Optionals optionals) {
         Optional<String> optional = optionals.upperCaseFirstLetter("source");
-        if (optional.isPresent()) {
-            log.debug("Optional is {}", optional.get());
-        }
+        optional.ifPresent(s -> log.debug("Optional is {}", s));
     }
 
     private static void lambdaOptional(Optionals optionals) {
         Optional<String> optional = optionals.upperCaseFirstLetter("source");
-        optional.ifPresent((s) -> log.debug(s));
+        optional.ifPresent(log::debug);
     }
 
     private static void fallbackOptional(Optionals optionals) {
         Optional<String> optional = optionals.upperCaseFirstLetter("");
-        log.debug(optional.orElse("Default"));
+        optional.ifPresent(log::debug);
     }
 
     private static void nullWrapped(Optionals optionals) {
         Optional<String> optional = optionals.wrapNull();
-        log.debug(optional.orElse("Default"));
+        optional.ifPresent(log::debug);
     }
 
     private static void filterOptional(Optionals optionals) {
         Optional<String> optional = optionals.upperCaseFirstLetter("source");
-        optional.filter(s -> s.length() > 4).ifPresent(s -> log.debug(s));
+        optional.filter(s -> s.length() > 4).ifPresent(log::debug);
     }
 
     private static void mapOptional(Optionals optionals) {
         Optional<String> optional = optionals.upperCaseFirstLetter("source");
-        log.debug("String length is {}", optional.map(Optionals::countLetters).get());
+        int size = -1;
+        if (optional.isPresent()) {
+            size = countLetters(optional.get());
+        }
+        log.debug("String length is {}", size);
     }
 
     static int countLetters(String input) {
@@ -70,12 +72,12 @@ public class Optionals {
         if (source.isEmpty()) {
             return Optional.empty();
         }
-        String uppercased = upperCase(firstLetter(source)) + lowerCase(allButFirstLetter(source));
-        return Optional.of(uppercased);
+        String uppercase = upperCase(firstLetter(source)) + lowerCase(allButFirstLetter(source));
+        return Optional.of(uppercase);
     }
 
     Optional<String> wrapNull() {
-        return Optional.ofNullable(null);
+        return Optional.empty();
     }
 
     private String upperCase(String source) {
