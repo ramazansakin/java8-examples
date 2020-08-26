@@ -36,9 +36,6 @@ public class FlatMapped {
         // Single pipeline
         IntStream.range(1, 4)
                 .mapToObj(i -> new Foo("Foo" + i))
-                .peek(foo -> IntStream.range(1, 4)
-                        .mapToObj(i -> new Bar(foo.name + "Bar" + i))
-                        .forEach(foo.bars::add))
                 .flatMap(foo -> foo.bars.stream())
                 .forEach(bar -> log.debug("{}", bar.name));
     }
@@ -57,9 +54,7 @@ public class FlatMapped {
                 .flatMap(n -> Optional.ofNullable(n.inner))
                 .flatMap(i -> Optional.ofNullable(i.foo));
 
-        if (result.isPresent()) {
-            log.debug("Foo is {}", result.get());
-        }
+        result.ifPresent(s -> log.debug("Foo is {}", s));
     }
 
     private static class Outer {
