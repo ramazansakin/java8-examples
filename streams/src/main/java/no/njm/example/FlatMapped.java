@@ -1,16 +1,14 @@
 package no.njm.example;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+@Slf4j
 public class FlatMapped {
-
-    private static final Logger log = LoggerFactory.getLogger(Streams.class);
 
     public static void main(String[] args) {
         flatMap();
@@ -25,24 +23,24 @@ public class FlatMapped {
         List<Foo> fooList = new ArrayList<>();
 
         IntStream.range(1, 4)
-                 .forEach(i -> fooList.add(new Foo("Foo" + i)));
+                .forEach(i -> fooList.add(new Foo("Foo" + i)));
 
         fooList.forEach(foo -> IntStream.range(1, 4)
-                                        .forEach(i -> foo.bars.add(new Bar(foo.name + "Bar" + i))));
+                .forEach(i -> foo.bars.add(new Bar(foo.name + "Bar" + i))));
 
         // FlatMap accepts a function which has to return a stream of objects
         fooList.stream()
-               .flatMap(foo -> foo.bars.stream())
-               .forEach(bar -> log.debug("{}", bar.name));
+                .flatMap(foo -> foo.bars.stream())
+                .forEach(bar -> log.debug("{}", bar.name));
 
         // Single pipeline
         IntStream.range(1, 4)
-                 .mapToObj(i -> new Foo("Foo" + i))
-                 .peek(foo -> IntStream.range(1, 4)
-                                       .mapToObj(i -> new Bar(foo.name + "Bar" + i))
-                                       .forEach(foo.bars::add))
-                 .flatMap(foo -> foo.bars.stream())
-                 .forEach(bar -> log.debug("{}", bar.name));
+                .mapToObj(i -> new Foo("Foo" + i))
+                .peek(foo -> IntStream.range(1, 4)
+                        .mapToObj(i -> new Bar(foo.name + "Bar" + i))
+                        .forEach(foo.bars::add))
+                .flatMap(foo -> foo.bars.stream())
+                .forEach(bar -> log.debug("{}", bar.name));
     }
 
     /**

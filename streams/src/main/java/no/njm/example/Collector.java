@@ -1,21 +1,19 @@
 package no.njm.example;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Collect accepts a Collector which consists of four different operations:
  * a supplier, an accumulator, a combiner and a finisher. Several collectors are implemented
  * in the Collectors class.
  */
+@Slf4j
 public class Collector {
-
-    private static final Logger log = LoggerFactory.getLogger(Collector.class);
 
     static List<Person> persons = Arrays.asList(
             new Person("Alfa", 20),
@@ -48,9 +46,7 @@ public class Collector {
      * Counting Stream elements;
      */
     private static void count() {
-        long count = persons.stream()
-                            .collect(Collectors.counting());
-
+        long count = persons.size();
         log.debug("Count is {}", count);
     }
 
@@ -59,7 +55,7 @@ public class Collector {
      */
     private static void average() {
         Double average = persons.stream()
-                                .collect(Collectors.averagingInt(p -> p.age));
+                .collect(Collectors.averagingInt(p -> p.age));
 
         log.debug("Average age is {}", average);
     }

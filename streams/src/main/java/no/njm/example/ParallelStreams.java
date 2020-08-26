@@ -1,19 +1,17 @@
 package no.njm.example;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Sequential streams uses a single thread while parallel uses multiple threads.
  */
+@Slf4j
 public class ParallelStreams {
-
-    private static final Logger log = LoggerFactory.getLogger(Streams.class);
 
     private static final int MAX = 1000;
 
@@ -31,8 +29,8 @@ public class ParallelStreams {
 
         long start = System.nanoTime();
         list.stream()
-                  .sorted()
-                  .count();
+                .sorted()
+                .count();
         long end = System.nanoTime();
         log.debug(String.format("Sequential sort took: %d ms", TimeUnit.NANOSECONDS.toMillis(end - start)));
     }
@@ -46,8 +44,8 @@ public class ParallelStreams {
 
         long start = System.nanoTime();
         list.parallelStream()
-                  .sorted()
-                  .count();
+                .sorted()
+                .count();
         long end = System.nanoTime();
         log.debug(String.format("Parallel sort took: %d ms", TimeUnit.NANOSECONDS.toMillis(end - start)));
     }
